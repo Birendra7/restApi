@@ -1,0 +1,13 @@
+import ApiError from "../utils/api-error";
+
+const validate = (Dtoclass) => {
+    return (req, res, next) => {
+        const {error, value} = Dtoclass.validate(req.body);
+        if(error){
+            throw ApiError.badRequest(error.join(", "));
+        }
+        req.body = value; // assign the validated and sanitized data back to req.body
+        next();
+    };
+
+}
